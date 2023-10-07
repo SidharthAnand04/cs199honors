@@ -2,7 +2,8 @@
 #include <random>
 
 // #include "vector.h"
-#include "list.h"S
+// #include "list.h"
+#include "deque.h"
 
 #include <climits>
 int main(int argc, char **argv) {
