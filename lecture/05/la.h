@@ -36,3 +36,8 @@ void sum(double *a, double &b, int n);
 
 // Puts the prefix sum of vector a into vector b. the vectors are length n
 void prefix(double *a, double *b, int n);
+
+// Multiply matrices A and B and store result in C. doublehe matrices are n x n
+void serialmatmul(double *A, double *B, double *C, int n);
+
+void parallelprefix(double *a, double *b, int n);

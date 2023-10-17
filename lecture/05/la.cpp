@@ -98,3 +98,34 @@ void prefix(double *a, double *b, int n)
 				b[i] = b[i-1] + a[i];
 		}
 }
+
+
+
+// My implementation for a serial matrix multiple 
+void serialmatmul(double *A, double *B, double *C, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            C[loc(i, j, n)] = 0.0;
+            for (int k = 0; k < n; k++)
+            {
+                C[loc(i, j, n)] += A[loc(i, k, n)] * B[loc(k, j, n)];
+            }
+        }
+    }
+}
+
+
+// My implementation for a parallel prefix sum
+void parallelprefix(double *a, double *b, int n)
+{
+    b[0] = a[0];
+
+    #pragma omp parallel for
+    for (int i = 1; i < n; i++)
+    {
+        b[i] = b[i - 1] + a[i];
+    }
+}

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <chrono>
 #include "la.h"
 
 
@@ -27,7 +28,8 @@ int main(int argc, char *argv[])
 
 	if(argc == 1){
 		n = 4;
-	
+		printf("Running with n = %d\n", n);
+
 		A =(double *) malloc(sizeof(double)*n*n);
 		B =(double *) malloc(sizeof(double)*n*n);
 		C = (double *) malloc(sizeof(double)*n*n);
@@ -53,6 +55,7 @@ int main(int argc, char *argv[])
 	} else if(argc == 2) {
 		n = 10;
 		int testnumber = atoi(argv[1]);
+		n = testnumber;
 		A = (double*) malloc(sizeof(double)*n*n);
 		B = (double*) malloc(sizeof(double)*n*n);
 		C = (double*) malloc(sizeof(double)*n*n);
@@ -67,7 +70,7 @@ int main(int argc, char *argv[])
 
 		for(int i=0; i < n; i++)
 		{
-			for(int j=0; j < n; j++)
+		for(int j=0; j < n; j++)
 			{
 				A[loc(i,j,n)] = B[loc(i,i,n)] = i + 2 * j;
 				C[loc(i,j,n)] = 9;
@@ -77,10 +80,25 @@ int main(int argc, char *argv[])
 			c[i] = randint(gen);
 		}
 
+		std::cout << "n = " << n << std::endl;
 		// test here
-		prefix(a, b, n);
-		printVector(a, n);
-		printVector(b, n);
+		 // get starting time using chrono
+		auto start = std::chrono::high_resolution_clock::now();
+		auto end = std::chrono::high_resolution_clock::now();
+
+		start = std::chrono::high_resolution_clock::now();
+		// prefix(a, b, n);
+		matmul(A, B, C, n);
+		end = std::chrono::high_resolution_clock::now();
+		std::cout << "Parallel Mat Mul time: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << " ns" << std::endl;
+
+		start = std::chrono::high_resolution_clock::now();
+		serialmatmul(A, B, C, n);
+		end = std::chrono::high_resolution_clock::now();
+		std::cout << "Serial Mat Mul time: " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() << " ns" << std::endl;
+
+		// printVector(a, n);
+		// printVector(b, n);
 
 	} else {
 		std::cout << "This only takes the n dimension as an argument" << std::endl;
